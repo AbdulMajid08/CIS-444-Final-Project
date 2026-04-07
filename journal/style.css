@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -6,7 +6,7 @@
 }
 
 body {
-  background: $f7f4fb;
+  background: #f7f4fb;
   color: #333;
   min-height: 100vh;
 }
@@ -21,11 +21,11 @@ body {
 }
 
 .topbar h1 {
-  font-szie: 2rem;
+  font-size: 2rem;
   margin-bottom: 6px;
 }
 
-.subtitle{
+.subtitle {
   color: #555;
   font-size: 0.95rem;
 }
@@ -65,7 +65,7 @@ body {
   transition: 0.2s ease;
 }
 
-.primary-btn:hover{
+.primary-btn:hover {
   background: #a7d56a;
 }
 
@@ -105,17 +105,30 @@ th {
   color: #4b3f72;
 }
 
-.edit-btn {
-  background: #d8ecff;
+.edit-btn,
+.delete-btn {
   border: none;
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s ease;
+  margin-right: 6px;
+}
+
+.edit-btn {
+  background: #d8ecff;
 }
 
 .edit-btn:hover {
   background: #c2e0fb;
+}
+
+.delete-btn {
+  background: #ffd9d9;
+}
+
+.delete-btn:hover {
+  background: #ffc2c2;
 }
 
 @media (max-width: 700px) {
@@ -133,4 +146,3 @@ th {
     width: 95%;
   }
 }
-  
