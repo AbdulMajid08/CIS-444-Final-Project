@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindCare Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>MindCare Dashboard</h1>
+        <p class="subtitle">Welcome back. Here are your journal entries.</p>
+      </div>
+      <button class="logout-btn" onclick="window.location.href='../login/index.html'">Log Out</button>
+    </header>
+
+    <main class="container">
+      <section class="actions">
+        <button id="newEntryBtn" class="primary-btn" onclick="window.location.href='../journal/index.html'">+ New Journal Entry</button>
+      </section>
+
+      <section class="dashboard-card">
+        <h2>Your Journals</h2>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Mood</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="journalTableBody">
+              <!-- filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

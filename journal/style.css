@@ -1,24 +1,20 @@
 body {
-    font-family: "Lexend";
-    background: pink;
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #1a4731 0%, #2e7d52 50%, #f0a500 100%);
     color: gray;
 }
-
 h1 {
     font-style: italic;
-
 }
-
 button {
-    font-family: "Delius";
+    font-family: 'DM Sans', sans-serif;
     padding: 5px 10px;
     color: black;
-    background-color: #ECB2F7;
+    background-color: #b9e27d;
     text-align: center;
     font-weight: 600;
     font-size: 16px;
 }
-
 #page {
     width: 530px;
     height: 750px;
@@ -27,9 +23,8 @@ button {
     text-align: center;
     border: 2px solid gray;
 }
-
 #writing {
-    font-family: "Times-New-Roman";
+    font-family: 'DM Sans', sans-serif;
     width: 500px;
     height: 600px;
     text-align: left;

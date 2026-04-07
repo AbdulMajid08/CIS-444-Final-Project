@@ -49,6 +49,7 @@ function LoginHandler() {
   // right now all this does is log it into the function and when an account is made it redirectts to dashbord page assuming its made
   // what needs to be done is to replace this with the PHP backend call
   console.log('Logging in with:', email);
+  localStorage.setItem('currentUser', email);
   window.location.href = '../dashboard/index.html';
 }
 
@@ -88,7 +89,8 @@ function SignupHandler() {
   // what needs to be done is to replace this with the PHP backend call 
  
    console.log('Signing up:', name, email);
-    window.location.href= '../dashboard/index.html';
+    localStorage.setItem('currentUser', email);
+    window.location.href = '../dashboard/index.html';
 }
 
 
