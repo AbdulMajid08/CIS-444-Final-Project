@@ -1,25 +1,17 @@
+import "../js/api.js";
+
 const journalTableBody = document.getElementById("journalTableBody");
-const newEntryBtn = document.getElementById("newEntryBtn");
 
-// Load entries from localStorage
-function getEntries() {
-  const user = localStorage.getItem("currentUser");
-  const entries = localStorage.getItem("journalEntries_" + user);
-  return entries ? JSON.parse(entries) : [];
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text == null ? "" : String(text);
+  return div.innerHTML;
 }
 
-// Save entries to localStorage
-function saveEntries(entries) {
-  const user = localStorage.getItem("currentUser");
-  localStorage.setItem("journalEntries_" + user, JSON.stringify(entries));
-}
-
-// Display entries
-function displayEntries() {
-  const entries = getEntries();
+function displayEntries(entries) {
   journalTableBody.innerHTML = "";
 
-  if (entries.length === 0) {
+  if (!entries || entries.length === 0) {
     journalTableBody.innerHTML = `
       <tr>
         <td colspan="4">No journal entries yet.</td>
@@ -28,40 +20,82 @@ function displayEntries() {
     return;
   }
 
-  entries.forEach((entry, index) => {
+  entries.forEach(function (entry) {
+    const id = entry.id;
     const row = document.createElement("tr");
 
     row.innerHTML = `
-      <td>${entry.date}</td>
-      <td>${entry.title}</td>
-      <td>${entry.mood}</td>
+      <td>${escapeHtml(entry.date)}</td>
+      <td>${escapeHtml(entry.title)}</td>
+      <td>${escapeHtml(entry.mood)}</td>
       <td>
-        <button class="edit-btn" onclick="window.location.href='../journal/index.html?edit=${index}'">Edit</button>
-        <button class="delete-btn" onclick="deleteEntry(${index})">Delete</button>
+        <button type="button" class="edit-btn">Edit</button>
+        <button type="button" class="delete-btn">Delete</button>
       </td>
     `;
+    row.querySelector(".edit-btn").addEventListener("click", function () {
+      window.location.href =
+        "../journal/index.html?edit=" + encodeURIComponent(String(id));
+    });
+    row.querySelector(".delete-btn").addEventListener("click", function () {
+      deleteEntry(String(id));
+    });
 
     journalTableBody.appendChild(row);
   });
 }
 
-function deleteEntry(index) {
-  const entries = getEntries();
-  entries.splice(index, 1);
-  saveEntries(entries);
-  displayEntries();
-}
-
-function editEntry(index) {
-  const entries = getEntries();
-  const newTitle = prompt("Edit title:", entries[index].title);
-
-  if (newTitle !== null && newTitle.trim() !== "") {
-    entries[index].title = newTitle;
-    saveEntries(entries);
-    displayEntries();
+async function refreshEntries() {
+  try {
+    const data = await api.listJournal();
+    displayEntries(data.entries);
+  } catch (err) {
+    console.error(err);
+    journalTableBody.innerHTML = `
+      <tr>
+        <td colspan="4">Could not load entries. Check the browser console and Firebase setup.</td>
+      </tr>
+    `;
   }
 }
 
+async function deleteEntry(entryId) {
+  if (!confirm("Delete this journal entry?")) return;
 
-displayEntries();
+  try {
+    await api.deleteJournalEntry(entryId);
+    await refreshEntries();
+  } catch (err) {
+    console.error(err);
+    alert(err.message || "Could not delete entry.");
+  }
+}
+
+document.getElementById("logoutBtn").addEventListener("click", function () {
+  api.clearSession();
+  window.location.href = "../login/index.html";
+});
+
+(async function initDashboard() {
+  await api.waitForAuth();
+  if (!api.getToken()) {
+    window.location.href = "../login/index.html";
+    return;
+  }
+
+  try {
+    await api.me();
+  } catch (err) {
+    api.clearSession();
+    window.location.href = "../login/index.html";
+    return;
+  }
+
+  const u = api.getUser();
+  const label = document.getElementById("userEmail");
+  if (label && u && u.email) {
+    label.textContent = "Signed in as " + u.email;
+  }
+
+  await refreshEntries();
+})();

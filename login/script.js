@@ -1,101 +1,104 @@
-
+import "../js/api.js";
 
 function showSignup() {
-  document.getElementById('loginForm').classList.add('hidden');
-
-  document.getElementById('signupForm').classList.remove('hidden');
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("signupForm").classList.remove("hidden");
   clearErrors();
 }
 
 function showLogin() {
-  document.getElementById('signupForm').classList.add('hidden');
-
-  
-  document.getElementById('loginForm').classList.remove('hidden');
-
+  document.getElementById("signupForm").classList.add("hidden");
+  document.getElementById("loginForm").classList.remove("hidden");
   clearErrors();
 }
 
 function clearErrors() {
-  document.getElementById('errorMsg').textContent = '';
-  document.getElementById('signupErrorMsg').textContent = '';
+  document.getElementById("errorMsg").textContent = "";
+  document.getElementById("signupErrorMsg").textContent = "";
 }
 
-
-// this function is responsible for handling the signup process
-
-function LoginHandler() {
-  const email = document.getElementById('email').value.trim();
-
-
-  const password= document.getElementById('password').value.trim();
-
-  const errorMsg= document.getElementById('errorMsg');
-
-
-  //  validation
+async function LoginHandler() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const errorMsg = document.getElementById("errorMsg");
 
   if (!email || !password) {
-    errorMsg.textContent= 'Please fill in both fields.';
-
+    errorMsg.textContent = "Please fill in both fields.";
     return;
   }
 
   if (!isValidEmail(email)) {
-    errorMsg.textContent = 'Please enter a valid email address.';
+    errorMsg.textContent = "Please enter a valid email address.";
     return;
   }
 
-  // right now all this does is log it into the function and when an account is made it redirectts to dashbord page assuming its made
-  // what needs to be done is to replace this with the PHP backend call
-  console.log('Logging in with:', email);
-  localStorage.setItem('currentUser', email);
-  window.location.href = '../dashboard/index.html';
+  errorMsg.textContent = "";
+  try {
+    const data = await api.login({ email: email, password: password });
+    api.setSession(data.token, data.user);
+    window.location.href = "../dashboard/index.html";
+  } catch (err) {
+    errorMsg.textContent = err.message || "Could not sign in.";
+  }
 }
 
+async function SignupHandler() {
+  const name = document.getElementById("newName").value.trim();
+  const email = document.getElementById("newEmail").value.trim();
+  const password = document.getElementById("newPassword").value.trim();
+  const errorMsg = document.getElementById("signupErrorMsg");
 
-// this function is responsible for handling the signup process
-
-function SignupHandler() {
-  const name= document.getElementById('newName').value.trim();
-
-  const email = document.getElementById('newEmail').value.trim();
-
-  const password= document.getElementById('newPassword').value.trim();
-
-
-  const errorMsg = document.getElementById('signupErrorMsg');
-
-
-  // Basic validation
   if (!name || !email || !password) {
-        errorMsg.textContent = 'Please fill in all fields.';
-
+    errorMsg.textContent = "Please fill in all fields.";
     return;
   }
 
   if (!isValidEmail(email)) {
-    errorMsg.textContent= 'Please enter a valid email address.';
-
-     return;
+    errorMsg.textContent = "Please enter a valid email address.";
+    return;
   }
 
   if (password.length < 6) {
-    errorMsg.textContent = 'Password must be at least 6 characters.';
+    errorMsg.textContent = "Password must be at least 6 characters.";
     return;
   }
 
-  // right now all this does is log it into the function and when an account is made it redirectts to dashbord page assuming its made
-  // what needs to be done is to replace this with the PHP backend call 
- 
-   console.log('Signing up:', name, email);
-    localStorage.setItem('currentUser', email);
-    window.location.href = '../dashboard/index.html';
+  errorMsg.textContent = "";
+  try {
+    const data = await api.register({
+      name: name,
+      email: email,
+      password: password,
+    });
+    api.setSession(data.token, data.user);
+    window.location.href = "../dashboard/index.html";
+  } catch (err) {
+    errorMsg.textContent = err.message || "Could not create account.";
+  }
 }
-
-
-// helper function to see if email format is good
 
 function isValidEmail(email) {
-  return email.includes('@') && email.includes('.');
+  return email.includes("@") && email.includes(".");
 }
+
+window.showSignup = showSignup;
+window.showLogin = showLogin;
+window.LoginHandler = LoginHandler;
+window.SignupHandler = SignupHandler;
+
+(function checkExistingSession() {
+  api
+    .waitForAuth()
+    .then(function () {
+      if (!api.getToken()) return;
+      return api.me();
+    })
+    .then(function (data) {
+      if (data) {
+        window.location.replace("../dashboard/index.html");
+      }
+    })
+    .catch(function () {
+      api.clearSession();
+    });
+})();
