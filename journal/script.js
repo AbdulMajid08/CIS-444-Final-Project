@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.entry) {
           titleInput.value = data.entry.title || "";
           document.getElementById("writing").value = data.entry.text || "";
+          document.getElementById("mood").value = data.entry.mood || "😐";
         }
       } catch (err) {
         console.error(err);
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const resolvedTitle = title || "Journal Entry";
       const dateStr = new Date().toLocaleDateString();
+      
 
       try {
         if (editId) {
@@ -53,13 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
             text: text,
             date: dateStr,
             title: resolvedTitle,
+            mood: document.getElementById("mood").value,
           });
         } else {
           await api.createJournalEntry({
             text: text,
             date: dateStr,
             title: resolvedTitle,
-            mood: "😐",
+            mood: document.getElementById("mood").value,
           });
         }
         window.location.href = "../dashboard/index.html";

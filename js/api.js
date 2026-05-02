@@ -308,6 +308,7 @@ window.api = {
       text: text,
       date: date,
       title: title,
+      mood: body.mood || "😐",
     });
     return { ok: true };
   },
