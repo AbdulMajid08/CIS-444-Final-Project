@@ -6,14 +6,24 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 
-<script src="script.js"></script>
 <body>
     <header>
-        <div id="page">
-            <button onclick="window.location.href='../dashboard/index.html'">← Back to Dashboard</button>
-            <h1>New Entry</h1>
-            <textarea id="writing"></textarea>
-            <button id="save-btn">Save</button>
+        <div id="layout">
+            <div id="page">
+                <button onclick="window.location.href='../dashboard/index.html'">← Back to Dashboard</button>
+                <input id="title" type="text" placeholder="Title"/>
+                <textarea id="writing" placeholder="write here..."></textarea>
+                <button id="save-btn">Save</button>
+            </div>
+            <div id="moodBox">
+                <p> How are you feeling today? </p>
+                <button class="mood-btn">😄</button>
+                <button class="mood-btn">🙂</button>
+                <button class="mood-btn">😐</button>
+                <button class="mood-btn">☹️</button>
+                <button class="mood-btn">😔</button>
+            </div>
         </div>
     </header>
+<script src="script.js"></script>
 </body>

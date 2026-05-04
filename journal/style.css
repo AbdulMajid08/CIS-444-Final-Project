@@ -2,33 +2,94 @@ body {
     font-family: 'DM Sans', sans-serif;
     background: linear-gradient(135deg, #1a4731 0%, #2e7d52 50%, #f0a500 100%);
     color: gray;
+    margin: 0;
+    min-height: 100vh;
 }
 h1 {
     font-style: italic;
 }
 button {
     font-family: 'DM Sans', sans-serif;
-    padding: 5px 10px;
+    padding: 5px 15px;
     color: black;
     background-color: #b9e27d;
     text-align: center;
     font-weight: 600;
     font-size: 16px;
+    cursor: pointer;
 }
+
+button:hover{
+    background-color:azure;
+}
+
+#layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+}
+
 #page {
     width: 530px;
-    height: 750px;
+    height: 800px;
     background: white;
-    margin: 20px auto;
     text-align: center;
+    margin-left: 120px;
     border: 2px solid gray;
 }
+
+#title {
+    margin-top: 10px;
+    height:20px;
+    width:490px;
+    font-size: 20px;
+    border: none;
+}
+
 #writing {
     font-family: 'DM Sans', sans-serif;
-    width: 500px;
-    height: 600px;
+    font-size: 15px;
+    width: 475px;
+    height: 650px;
     text-align: left;
     padding: 15px;
     line-height: 1.5;
     border: none;
+}
+
+#moodBox {
+    background: linear-gradient(to top, #359064, rgb(164, 105, 4));
+    font-family:fantasy;
+    font-size: 20px;
+    color:rgb(255, 255, 255);
+    width: 250px;
+    height: 200px;
+    border: 3px solid rgb(74, 69, 69);
+    margin-top: 100px;
+    text-align: center;
+    justify-content: center;
+
+}
+
+.mood-btn {
+    background:none;
+    border: 3px outset rgb(185, 138, 138);
+    font-size: 25px;
+    margin: 3px;
+    margin-top: 5px;
+    cursor:pointer;
+}
+
+.mood-btn:hover{
+    background-color: rgb(139, 113, 123);
+}
+
+.mood-btn.selected{
+    background-color: rgb(139, 113, 123);
+}
+html,
+body {
+    margin: 0;
+    min-height: 100vh;
 }
