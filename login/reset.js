@@ -1,7 +1,9 @@
 import "../js/api.js";
 
+// used to store the active password reset code after validated
 let activeOobCode = null;
 
+// parses the reset link sent to the user and gets the needed parameters to validate the link and then the password reset process can be done
 function getResetLinkParams() {
   const fromSearch = new URLSearchParams(window.location.search);
   let mode = fromSearch.get("mode");
@@ -14,6 +16,8 @@ function getResetLinkParams() {
   return { mode: mode, oobCode: oobCode };
 }
 
+// used in order to show the correct message to the user based on the stage of their reset process
+// if link is valid we show form if not we show invalid message
 function showPanel(id) {
   ["loadingPanel", "invalidPanel", "resetForm", "successPanel"].forEach(function (panelId) {
     const el = document.getElementById(panelId);
@@ -23,10 +27,12 @@ function showPanel(id) {
   });
 }
 
+// this is the mai function used when our page loads, we use it to validate our reset link and show correct form
 async function initResetPage() {
   const { mode, oobCode } = getResetLinkParams();
 
   if (mode !== "resetPassword" || !oobCode) {
+    // Link is not a valid password reset link.
     showPanel("invalidPanel");
     const msg = document.getElementById("invalidMsg");
     if (msg) {
@@ -45,6 +51,7 @@ async function initResetPage() {
     activeOobCode = oobCode;
     showPanel("resetForm");
   } catch (e) {
+    // If validation fails, show the invalid link message.
     showPanel("invalidPanel");
     const msg = document.getElementById("invalidMsg");
     if (msg) {
@@ -53,6 +60,7 @@ async function initResetPage() {
   }
 }
 
+// used to handle the reset form submission, validates it, and then the password is reset
 async function SubmitPasswordResetHandler() {
   const oobCode = activeOobCode;
   const pass = document.getElementById("newPasswordReset").value;
@@ -74,6 +82,7 @@ async function SubmitPasswordResetHandler() {
     return;
   }
 
+  // cleares and old error messages, then we attepmt to reset again
   errorEl.textContent = "";
   try {
     await api.completePasswordReset({ oobCode: oobCode, newPassword: pass });
@@ -83,6 +92,8 @@ async function SubmitPasswordResetHandler() {
   }
 }
 
+// this is used to make sure that the form is calling the submit handler when the user clicks the button
 window.SubmitPasswordResetHandler = SubmitPasswordResetHandler;
 
+// starts the page initilization as soon as page is loaded
 initResetPage();

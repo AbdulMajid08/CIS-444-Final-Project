@@ -15,6 +15,13 @@ A journaling web app with:
 - Tooling: Vite
 - Runtime: Node.js
 
+## Open Source Libraries
+
+- `express` - Node.js web framework used by `server.js`
+- `cors` - CORS middleware for Express
+- `firebase` - Firebase web SDK for auth and Firestore
+- `vite` - Frontend development and build tool
+
 ## Project Structure
 
 - `login/` - Sign in / create account

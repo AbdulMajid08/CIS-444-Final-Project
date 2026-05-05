@@ -24,9 +24,11 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+// here we defind our firebase authentication and firestore db instance, this way we can use them in the API calls to insure user authentication and save entries
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// this snapshot is a helper function that makes sure that the doc exists in the firestore db, this way we dont try and access data that doesnt exist
 function snapshotExists(snap) {
   if (!snap) return false;
   if (typeof snap.exists === "function") {
@@ -35,6 +37,7 @@ function snapshotExists(snap) {
   return !!snap.exists;
 }
 
+// this is so we wait for the authentication first before making any API calls, this way we avoid duplicate calls
 let authReadyPromise = null;
 function waitForAuth() {
   if (authReadyPromise) {
@@ -49,6 +52,7 @@ function waitForAuth() {
   return authReadyPromise;
 }
 
+// we use this to store our users session data in the browser so that we can have access to that data throughout all pages
 function syncUserFromAuth() {
   const u = auth.currentUser;
   if (!u) {
@@ -65,10 +69,13 @@ function syncUserFromAuth() {
   );
 }
 
+// if a user is signed in we return firebase as our token, this way we confirm that user is authenticated
+// now we can use that token in the API calls
 function getToken() {
   return auth.currentUser ? "firebase" : null;
 }
 
+// this is to load the user data from the storage for API calls
 function getUser() {
   const raw = sessionStorage.getItem("user");
   if (!raw) return null;
@@ -79,6 +86,7 @@ function getUser() {
   }
 }
 
+// user data is stored while loged in and cleared when logged out
 function setSession(_token, user) {
   if (user) {
     sessionStorage.setItem("user", JSON.stringify(user));
@@ -87,11 +95,13 @@ function setSession(_token, user) {
   }
 }
 
+// when user signs out we clear the all the session data that pertains to that user
 function clearSession() {
   sessionStorage.removeItem("user");
   return signOut(auth);
 }
 
+// this is used to provide the user with feedback on errors they may get from firebase
 function mapAuthError(err) {
   const code = err && err.code ? String(err.code) : "";
   if (code === "auth/email-already-in-use") {
@@ -122,6 +132,7 @@ function mapAuthError(err) {
   return err.message || "Request failed.";
 }
 
+// this is used to build the reset password page 
 function getPasswordResetContinueUrl() {
   if (typeof window === "undefined" || !window.location) {
     return undefined;
@@ -129,6 +140,7 @@ function getPasswordResetContinueUrl() {
   return `${window.location.origin}/login/reset.html`;
 }
 
+// this is used to make sure each user has access only to their personal entries
 function journalEntriesRef(uid) {
   return collection(db, "users", uid, "journalEntries");
 }
@@ -137,6 +149,7 @@ function entryDocRef(uid, entryId) {
   return doc(db, "users", uid, "journalEntries", String(entryId));
 }
 
+// this is used to make sure that our data that we recieve from firestore is in the needed format for the application
 function docToEntry(id, data) {
   if (!data) return null;
   let createdAt = data.createdAt;
@@ -157,9 +170,11 @@ function docToEntry(id, data) {
   };
 }
 
+// this insures that the current users data is always availabe for that session for API calls
 waitForAuth().then(syncUserFromAuth);
 onAuthStateChanged(auth, syncUserFromAuth);
 
+// this is the api call we use for access to the authentication and journal data
 window.api = {
   waitForAuth: waitForAuth,
 
@@ -168,6 +183,7 @@ window.api = {
   setSession: setSession,
   clearSession: clearSession,
 
+  // this is to handle the registartion of new users and then save their data to the session and firestore DB
   register: async function (body) {
     const name = String(body.name || "").trim();
     const email = String(body.email || "").trim().toLowerCase();
@@ -192,6 +208,7 @@ window.api = {
     }
   },
 
+  // if a user already exists we check their credentials and if authenticated we log them in and cahce their info for the session for future API calls
   login: async function (body) {
     const email = String(body.email || "").trim().toLowerCase();
     const password = String(body.password || "");
@@ -216,6 +233,7 @@ window.api = {
     }
   },
 
+  // if the user requests a password reset we send them an email that provides a link which allows them to reset password
   requestPasswordReset: async function (body) {
     const email = String(body.email || "")
       .trim()
@@ -241,6 +259,7 @@ window.api = {
     }
   },
 
+  // this is used to make sure that the password reset link sent is valid and if it is we send it to the email the user provided
   validatePasswordResetCode: async function (oobCode) {
     const code = String(oobCode || "").trim();
     if (!code) {
@@ -257,6 +276,7 @@ window.api = {
     }
   },
 
+  // this is used to complete the password reset process, once changed the user can use new pass to login
   completePasswordReset: async function (body) {
     const oobCode = String(body.oobCode || "").trim();
     const newPassword = String(body.newPassword || "");
@@ -277,6 +297,7 @@ window.api = {
     }
   },
 
+  // this is to make sure that user is signed in before allowing access dashboard pages
   me: async function () {
     await waitForAuth();
     const u = auth.currentUser;
@@ -294,6 +315,7 @@ window.api = {
     return { user: user };
   },
 
+  // this is to load the current signed in users personal entries, and we provide them in an order from newest to first
   listJournal: async function () {
     await waitForAuth();
     const u = auth.currentUser;
@@ -311,6 +333,7 @@ window.api = {
     return { entries: entries };
   },
 
+  // when a user is accessing an entry we have it read by its firestore doc ID to make sure that the user is accessing the correct entry
   getJournalEntry: async function (id) {
     await waitForAuth();
     const u = auth.currentUser;
@@ -328,6 +351,7 @@ window.api = {
     return { entry: docToEntry(snap.id, snap.data()) };
   },
 
+  // when a new entry is created we save it in firestore db as well under that users personal ID
   createJournalEntry: async function (body) {
     await waitForAuth();
     const u = auth.currentUser;
@@ -361,6 +385,7 @@ window.api = {
     };
   },
 
+  // this is used so tht we can update the users entry if the users chooses to, but first we mae sure it exists
   updateJournalEntry: async function (id, body) {
     await waitForAuth();
     const u = auth.currentUser;
@@ -394,6 +419,7 @@ window.api = {
     return { ok: true };
   },
 
+  // if a user decides to delete an entry we allow them to do so after making sure it belongs to them
   deleteJournalEntry: async function (id) {
     await waitForAuth();
     const u = auth.currentUser;
