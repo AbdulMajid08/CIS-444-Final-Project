@@ -6,6 +6,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
+  sendPasswordResetEmail,
+  verifyPasswordResetCode as firebaseVerifyPasswordResetCode,
+  confirmPasswordReset as firebaseConfirmPasswordReset,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -106,7 +109,24 @@ function mapAuthError(err) {
   if (code === "auth/too-many-requests") {
     return "Too many attempts. Try again later.";
   }
+  if (
+    code === "auth/invalid-action-code" ||
+    code === "auth/expired-action-code" ||
+    code === "auth/invalid-continue-uri"
+  ) {
+    return "This link is invalid or has expired. Request a new reset email.";
+  }
+  if (code === "auth/weak-password") {
+    return "Password must be at least 6 characters.";
+  }
   return err.message || "Request failed.";
+}
+
+function getPasswordResetContinueUrl() {
+  if (typeof window === "undefined" || !window.location) {
+    return undefined;
+  }
+  return `${window.location.origin}/login/reset.html`;
 }
 
 function journalEntriesRef(uid) {
@@ -188,6 +208,67 @@ window.api = {
       };
       setSession("firebase", user);
       return { token: "firebase", user: user };
+    } catch (e) {
+      const msg = mapAuthError(e);
+      const err = new Error(msg);
+      err.code = e.code;
+      throw err;
+    }
+  },
+
+  requestPasswordReset: async function (body) {
+    const email = String(body.email || "")
+      .trim()
+      .toLowerCase();
+    if (!email) {
+      throw new Error("Please enter your email address.");
+    }
+    const actionCodeSettings = {
+      url: getPasswordResetContinueUrl(),
+      handleCodeInApp: false,
+    };
+    try {
+      await sendPasswordResetEmail(auth, email, actionCodeSettings);
+      return { ok: true };
+    } catch (e) {
+      if (e && e.code === "auth/user-not-found") {
+        return { ok: true };
+      }
+      const msg = mapAuthError(e);
+      const err = new Error(msg);
+      err.code = e.code;
+      throw err;
+    }
+  },
+
+  validatePasswordResetCode: async function (oobCode) {
+    const code = String(oobCode || "").trim();
+    if (!code) {
+      throw new Error("Invalid or missing reset link.");
+    }
+    try {
+      const email = await firebaseVerifyPasswordResetCode(auth, code);
+      return { email: email };
+    } catch (e) {
+      const msg = mapAuthError(e);
+      const err = new Error(msg);
+      err.code = e.code;
+      throw err;
+    }
+  },
+
+  completePasswordReset: async function (body) {
+    const oobCode = String(body.oobCode || "").trim();
+    const newPassword = String(body.newPassword || "");
+    if (!oobCode) {
+      throw new Error("Invalid or missing reset link.");
+    }
+    if (newPassword.length < 6) {
+      throw new Error("Password must be at least 6 characters.");
+    }
+    try {
+      await firebaseConfirmPasswordReset(auth, oobCode, newPassword);
+      return { ok: true };
     } catch (e) {
       const msg = mapAuthError(e);
       const err = new Error(msg);

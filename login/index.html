@@ -34,7 +34,7 @@
           <input type="password" id="password" placeholder="••••••••" />
         </div>
 
-        <a href="#" class="forgot">Forgot password?</a>
+        <button type="button" class="forgot-link" onclick="showForgot()">Forgot password?</button>
 
         <p class="error-msg" id="errorMsg"></p>
 
@@ -43,6 +43,25 @@
         <div class="divider"></div>
 
         <button class="btn-ghost" onclick="showSignup()">Don't have an account? Sign up</button>
+      </div>
+
+      <div id="forgotForm" class="hidden">
+        <h2>Reset password</h2>
+        <p class="subtitle">Enter your email and we'll send you a link.</p>
+
+        <div class="input-group">
+          <label for="resetEmail">Email</label>
+          <input type="email" id="resetEmail" placeholder="you@example.com" autocomplete="email" />
+        </div>
+
+        <p class="error-msg" id="forgotErrorMsg"></p>
+        <p class="success-msg hidden" id="forgotSuccessMsg" role="status"></p>
+
+        <button class="btn" type="button" onclick="ForgotPasswordHandler()">Send reset link</button>
+
+        <div class="divider"></div>
+
+        <button class="btn-ghost" type="button" onclick="showLogin()">Back to sign in</button>
       </div>
 
       <!-- this the signup form but has to be hidden by default to follow normal website architecture -->

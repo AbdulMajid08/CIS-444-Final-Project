@@ -1,4 +1,4 @@
-import"./api-BJk4hTXD.js";const i=document.getElementById("journalTableBody");function r(e){const t=document.createElement("div");return t.textContent=e==null?"":String(e),t.innerHTML}function l(e){if(i.innerHTML="",!e||e.length===0){i.innerHTML=`
+import"./api-harsJktA.js";const i=document.getElementById("journalTableBody");function r(e){const t=document.createElement("div");return t.textContent=e==null?"":String(e),t.innerHTML}function l(e){if(i.innerHTML="",!e||e.length===0){i.innerHTML=`
       <tr>
         <td colspan="4">No journal entries yet.</td>
       </tr>

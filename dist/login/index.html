@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MoodJournal – Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet"/>
-  <script type="module" crossorigin src="/assets/login-CnnoEv2v.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/api-BJk4hTXD.js">
-  <link rel="stylesheet" crossorigin href="/assets/login-Ce2DLKr-.css">
+  <script type="module" crossorigin src="/assets/login-RpHeci7a.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/api-harsJktA.js">
+  <link rel="stylesheet" crossorigin href="/assets/login-C-5iXZoE.css">
 </head>
 <body>
 
@@ -36,7 +36,7 @@
           <input type="password" id="password" placeholder="••••••••" />
         </div>
 
-        <a href="#" class="forgot">Forgot password?</a>
+        <button type="button" class="forgot-link" onclick="showForgot()">Forgot password?</button>
 
         <p class="error-msg" id="errorMsg"></p>
 
@@ -45,6 +45,25 @@
         <div class="divider"></div>
 
         <button class="btn-ghost" onclick="showSignup()">Don't have an account? Sign up</button>
+      </div>
+
+      <div id="forgotForm" class="hidden">
+        <h2>Reset password</h2>
+        <p class="subtitle">Enter your email and we'll send you a link.</p>
+
+        <div class="input-group">
+          <label for="resetEmail">Email</label>
+          <input type="email" id="resetEmail" placeholder="you@example.com" autocomplete="email" />
+        </div>
+
+        <p class="error-msg" id="forgotErrorMsg"></p>
+        <p class="success-msg hidden" id="forgotSuccessMsg" role="status"></p>
+
+        <button class="btn" type="button" onclick="ForgotPasswordHandler()">Send reset link</button>
+
+        <div class="divider"></div>
+
+        <button class="btn-ghost" type="button" onclick="showLogin()">Back to sign in</button>
       </div>
 
       <!-- this the signup form but has to be hidden by default to follow normal website architecture -->

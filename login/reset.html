@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MoodJournal – Set new password</title>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="center">
+    <div class="card">
+
+      <div class="brand">
+        <span>🌿</span>
+        <span>MoodJournal</span>
+      </div>
+
+      <div id="loadingPanel">
+        <p class="subtitle">Checking your reset link…</p>
+      </div>
+
+      <div id="invalidPanel" class="hidden">
+        <h2>Link not usable</h2>
+        <p class="error-msg" id="invalidMsg"></p>
+        <a class="btn" href="./index.html">Back to sign in</a>
+      </div>
+
+      <div id="resetForm" class="hidden">
+        <h2>Choose a new password</h2>
+        <p class="subtitle" id="resetEmailHint"></p>
+
+        <div class="input-group">
+          <label for="newPasswordReset">New password</label>
+          <input type="password" id="newPasswordReset" placeholder="Min. 6 characters" autocomplete="new-password" />
+        </div>
+
+        <div class="input-group">
+          <label for="confirmPasswordReset">Confirm password</label>
+          <input type="password" id="confirmPasswordReset" placeholder="Repeat password" autocomplete="new-password" />
+        </div>
+
+        <p class="error-msg" id="resetErrorMsg"></p>
+
+        <button class="btn" type="button" onclick="SubmitPasswordResetHandler()">Update password</button>
+
+        <div class="divider"></div>
+
+        <a class="btn-ghost inline-link" href="./index.html">Cancel</a>
+      </div>
+
+      <div id="successPanel" class="hidden">
+        <h2>Password updated</h2>
+        <p class="subtitle">You can sign in with your new password.</p>
+        <a class="btn" href="./index.html">Sign in</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="./reset.js"></script>
+</body>
+</html>
