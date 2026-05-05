@@ -1,5 +1,9 @@
+* {
+  box-sizing: border-box;
+}
 
 body {
+  margin: 0;
   font-family: 'DM Sans', sans-serif;
   background: #f4f9f6;
   min-height: 100vh;
@@ -34,7 +38,7 @@ body {
   margin-bottom: 28px;
   font-family: serif;
   font-size: 20px;
-  color: var(--green);
+  color: #2e7d52;
 }
 
 h2 {
@@ -49,4 +53,116 @@ h2 {
 
 .hidden {
   display: none;
+}
+
+.subtitle {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  line-height: 1.45;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #2e7d52;
+  box-shadow: 0 0 0 3px rgba(46, 125, 82, 0.2);
+}
+
+.forgot-link {
+  display: inline-block;
+  margin: 4px 0 16px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #2e7d52;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.forgot-link:hover {
+  color: #1a4731;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #b9e27d, #8fc76a);
+  color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover {
+  filter: brightness(0.97);
+}
+
+.btn-ghost {
+  width: 100%;
+  padding: 12px 18px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background: #fff;
+  color: #444;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-ghost:hover {
+  background: #f7f7f7;
+}
+
+.btn-ghost.inline-link {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.divider {
+  height: 1px;
+  background: #e8e8e8;
+  margin: 20px 0;
+}
+
+.error-msg {
+  min-height: 1.2em;
+  color: #b00020;
+  font-size: 0.9rem;
+  margin: 0 0 12px;
+}
+
+.success-msg {
+  color: #1b5e20;
+  font-size: 0.9rem;
+  margin: 0 0 12px;
+  line-height: 1.4;
 }

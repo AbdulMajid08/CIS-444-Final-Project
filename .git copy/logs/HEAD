@@ -1,0 +1,17 @@
+0000000000000000000000000000000000000000 402ffd1c92fba96198f7a0b0dcbd7a01ffe39f90 Abdul Majid <abdulmajidpz@gmail.com> 1773302828 -0700	commit (initial): First
+402ffd1c92fba96198f7a0b0dcbd7a01ffe39f90 402ffd1c92fba96198f7a0b0dcbd7a01ffe39f90 Abdul Majid <abdulmajidpz@gmail.com> 1775024725 -0700	checkout: moving from main to loginPage(Abdul)
+402ffd1c92fba96198f7a0b0dcbd7a01ffe39f90 3714da2dd2a86e6a67f5a62c9bb429f9cb17ba71 Abdul Majid <abdulmajidpz@gmail.com> 1775026695 -0700	commit: Login Page Setup
+3714da2dd2a86e6a67f5a62c9bb429f9cb17ba71 3714da2dd2a86e6a67f5a62c9bb429f9cb17ba71 Abdul Majid <abdulmajidpz@gmail.com> 1775026884 -0700	checkout: moving from loginPage(Abdul) to validation(Haani)
+3714da2dd2a86e6a67f5a62c9bb429f9cb17ba71 dd4b82747470062e2e8ddb133d1d2f8c905b3c18 Abdul Majid <abdulmajidpz@gmail.com> 1775026993 -0700	commit: New validation branch
+dd4b82747470062e2e8ddb133d1d2f8c905b3c18 3714da2dd2a86e6a67f5a62c9bb429f9cb17ba71 Abdul Majid <abdulmajidpz@gmail.com> 1775027023 -0700	checkout: moving from validation(Haani) to loginPage(Abdul)
+3714da2dd2a86e6a67f5a62c9bb429f9cb17ba71 dd4b82747470062e2e8ddb133d1d2f8c905b3c18 Abdul Majid <abdulmajidpz@gmail.com> 1775027026 -0700	checkout: moving from loginPage(Abdul) to validation(Haani)
+dd4b82747470062e2e8ddb133d1d2f8c905b3c18 3714da2dd2a86e6a67f5a62c9bb429f9cb17ba71 Abdul Majid <abdulmajidpz@gmail.com> 1775027383 -0700	checkout: moving from validation(Haani) to loginPage(Abdul)
+3714da2dd2a86e6a67f5a62c9bb429f9cb17ba71 a78b93f13a544bd1b545a55132da670cdb6933d6 Abdul Majid <abdulmajidpz@gmail.com> 1775537646 -0700	checkout: moving from loginPage(Abdul) to main
+a78b93f13a544bd1b545a55132da670cdb6933d6 157df8e4773fbcdb6b13c83d5ed189174e940e5f Abdul Majid <abdulmajidpz@gmail.com> 1775538067 -0700	checkout: moving from main to dashboardPage(Ashley)
+157df8e4773fbcdb6b13c83d5ed189174e940e5f a78b93f13a544bd1b545a55132da670cdb6933d6 Abdul Majid <abdulmajidpz@gmail.com> 1775538337 -0700	checkout: moving from dashboardPage(Ashley) to main
+a78b93f13a544bd1b545a55132da670cdb6933d6 48441e86377e507d1eb5ae5c1dad086c8748c1ba Abdul Majid <abdulmajidpz@gmail.com> 1775546766 -0700	commit: Merged Everythin
+48441e86377e507d1eb5ae5c1dad086c8748c1ba 9cfe3a9e6ffd74511afe625178d4bd64017b800d Abdul Majid <abdulmajidpz@gmail.com> 1777002792 -0700	pull --ff --recurse-submodules --progress origin: Fast-forward
+9cfe3a9e6ffd74511afe625178d4bd64017b800d 9cfe3a9e6ffd74511afe625178d4bd64017b800d Abdul Majid <abdulmajidpz@gmail.com> 1777002815 -0700	checkout: moving from main to Authentication
+9cfe3a9e6ffd74511afe625178d4bd64017b800d 02d139453cfad804f90802c1193b5061d10fec7d Abdul Majid <abdulmajidpz@gmail.com> 1777003258 -0700	commit: Added Authentication
+02d139453cfad804f90802c1193b5061d10fec7d 9cfe3a9e6ffd74511afe625178d4bd64017b800d Abdul Majid <abdulmajidpz@gmail.com> 1777003273 -0700	checkout: moving from Authentication to main
+9cfe3a9e6ffd74511afe625178d4bd64017b800d 02d139453cfad804f90802c1193b5061d10fec7d Abdul Majid <abdulmajidpz@gmail.com> 1777003286 -0700	checkout: moving from main to Authentication
